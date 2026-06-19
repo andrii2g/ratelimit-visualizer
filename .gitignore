@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/.vs/RateLimitVisualizer.slnx
+/src/RateLimitVisualizer.Api/obj
+/src/RateLimitVisualizer.Core/obj
+/src/RateLimitVisualizer.Api/RateLimitVisualizer.Api.csproj.user
+/src/RateLimitVisualizer.DemoClient/obj
+/src/RateLimitVisualizer.MockApi/obj
+/tests/RateLimitVisualizer.Tests/obj
+/tests/RateLimitVisualizer.Tests/bin/Debug/net10.0

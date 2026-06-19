@@ -1,2 +1,7 @@
 <Solution>
+  <Project Path="../tests/RateLimitVisualizer.Tests/RateLimitVisualizer.Tests.csproj" />
+  <Project Path="RateLimitVisualizer.Api/RateLimitVisualizer.Api.csproj" />
+  <Project Path="RateLimitVisualizer.Core/RateLimitVisualizer.Core.csproj" />
+  <Project Path="RateLimitVisualizer.DemoClient/RateLimitVisualizer.DemoClient.csproj" />
+  <Project Path="RateLimitVisualizer.MockApi/RateLimitVisualizer.MockApi.csproj" />
 </Solution>
