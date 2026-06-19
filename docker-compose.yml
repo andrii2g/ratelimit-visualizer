@@ -1,0 +1,21 @@
+services:
+  visualizer:
+    build:
+      context: .
+      dockerfile: src/RateLimitVisualizer.Api/Dockerfile
+    environment:
+      Storage__ConnectionString: Data Source=/app/data/ratelimit-visualizer.db
+    ports:
+      - "5050:8080"
+    volumes:
+      - visualizer-data:/app/data
+
+  mock-api:
+    build:
+      context: .
+      dockerfile: src/RateLimitVisualizer.MockApi/Dockerfile
+    ports:
+      - "5060:8080"
+
+volumes:
+  visualizer-data:
