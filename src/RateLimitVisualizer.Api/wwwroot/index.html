@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RateLimit Visualizer</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <h1>RateLimit Visualizer</h1>
+      <label>Provider <input id="provider" value="demo-api"></label>
+      <label>Consumer <input id="consumer" value="local-demo-client"></label>
+      <button id="refresh">Refresh</button>
+      <span id="autoRefresh">Auto refresh: 5s</span>
+    </header>
+
+    <section class="summary" id="summary"></section>
+
+    <section class="panel">
+      <h2>Burn Rate</h2>
+      <svg id="chart" viewBox="0 0 900 260" role="img" aria-label="Burn rate chart"></svg>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>Endpoint Usage</h2>
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Endpoint</th><th>Requests</th><th>Share</th><th>Avg latency</th><th>Last</th></tr>
+          </thead>
+          <tbody id="endpoints"></tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>Alerts</h2>
+        <div id="alerts"></div>
+      </div>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

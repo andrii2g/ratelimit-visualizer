@@ -1,0 +1,146 @@
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #111317;
+  color: #e8edf2;
+}
+
+body {
+  margin: 0;
+  background: #111317;
+}
+
+.shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: 1fr repeat(2, minmax(180px, 240px)) auto auto;
+  gap: 12px;
+  align-items: end;
+}
+
+h1, h2 {
+  margin: 0;
+  font-weight: 650;
+}
+
+h2 {
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: #9ba9b6;
+  font-size: 13px;
+}
+
+input, button {
+  min-height: 38px;
+  border: 1px solid #303944;
+  background: #181d23;
+  color: #f7f9fb;
+  border-radius: 6px;
+  padding: 0 12px;
+}
+
+button {
+  cursor: pointer;
+  background: #1e6ee9;
+  border-color: #1e6ee9;
+  font-weight: 650;
+}
+
+#autoRefresh {
+  color: #9ba9b6;
+  font-size: 13px;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.card, .panel {
+  background: #181d23;
+  border: 1px solid #28313b;
+  border-radius: 8px;
+}
+
+.card {
+  padding: 14px;
+  min-height: 86px;
+}
+
+.label {
+  color: #9ba9b6;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.value {
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.panel {
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 18px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #28313b;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  color: #9ba9b6;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.alert {
+  border-left: 4px solid #36c275;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  background: #12171d;
+}
+
+.warning { border-color: #f2a93b; }
+.critical { border-color: #f05b5b; }
+.info { border-color: #5ba4ff; }
+.healthy { color: #36c275; }
+
+svg {
+  width: 100%;
+  height: auto;
+  background: #12171d;
+  border-radius: 6px;
+}
+
+@media (max-width: 900px) {
+  .topbar, .summary, .grid {
+    grid-template-columns: 1fr;
+  }
+}
