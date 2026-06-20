@@ -4,9 +4,10 @@ services:
       context: .
       dockerfile: src/RateLimitVisualizer.Api/Dockerfile
     environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
       Storage__ConnectionString: Data Source=/app/data/ratelimit-visualizer.db
     ports:
-      - "5050:8080"
+      - "0.0.0.0:5050:8080"
     volumes:
       - visualizer-data:/app/data
 
@@ -14,8 +15,43 @@ services:
     build:
       context: .
       dockerfile: src/RateLimitVisualizer.MockApi/Dockerfile
+    environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
     ports:
-      - "5060:8080"
+      - "0.0.0.0:5060:8080"
+
+  demo-client:
+    build:
+      context: .
+      dockerfile: src/RateLimitVisualizer.DemoClient/Dockerfile
+    depends_on:
+      - visualizer
+      - mock-api
+    command:
+      - "--visualizer-url"
+      - "http://visualizer:8080"
+      - "--mock-api-url"
+      - "http://mock-api:8080"
+      - "--requests"
+      - "${DEMO_REQUESTS:-1000}"
+      - "--delay-ms"
+      - "${DEMO_DELAY_MS:-10}"
+    profiles:
+      - demo
+
+  tests:
+    image: mcr.microsoft.com/dotnet/sdk:10.0
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - nuget-cache:/root/.nuget/packages
+    command:
+      - "dotnet"
+      - "test"
+      - "src/RateLimitVisualizer.slnx"
+    profiles:
+      - test
 
 volumes:
   visualizer-data:
+  nuget-cache:

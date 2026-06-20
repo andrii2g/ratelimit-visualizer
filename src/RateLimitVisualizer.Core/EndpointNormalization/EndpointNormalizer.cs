@@ -14,7 +14,7 @@ public sealed partial class EndpointNormalizer
         var value = urlOrPath.Trim();
         string path;
 
-        if (Uri.TryCreate(value, UriKind.Absolute, out var absolute))
+        if (Uri.TryCreate(value, UriKind.Absolute, out var absolute) && !string.IsNullOrWhiteSpace(absolute.Host))
         {
             path = absolute.AbsolutePath;
         }

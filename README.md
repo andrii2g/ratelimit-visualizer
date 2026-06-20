@@ -19,10 +19,10 @@ Run the visualizer and demo client, then open `http://localhost:5050`.
 
 ## Quick start
 
+From the repository root, start the visualizer, mock API, and demo traffic with Docker Compose:
+
 ```bash
-dotnet run --project src/RateLimitVisualizer.Api
-dotnet run --project src/RateLimitVisualizer.MockApi
-dotnet run --project src/RateLimitVisualizer.DemoClient -- --requests 1000 --delay-ms 10
+bash ./scripts/start.sh
 ```
 
 Open:
@@ -31,27 +31,55 @@ Open:
 http://localhost:5050
 ```
 
-## Run the visualizer
+Run tests in Docker:
 
 ```bash
-dotnet run --project src/RateLimitVisualizer.Api
+bash ./scripts/test.sh
 ```
 
-The dashboard is served from `http://localhost:5050`.
-
-## Run the mock API
+Stop services and remove local runtime data:
 
 ```bash
-dotnet run --project src/RateLimitVisualizer.MockApi
+bash ./scripts/cleanup.sh
 ```
 
-The mock API listens on `http://localhost:5060`.
-
-## Generate demo traffic
+If the browser cannot reach `http://localhost:5050`, run:
 
 ```bash
-dotnet run --project src/RateLimitVisualizer.DemoClient -- --requests 1000 --delay-ms 10
+bash ./scripts/doctor.sh
 ```
+
+On some WSL + Docker setups, Windows localhost forwarding is not available. In that case, use the `WSL IP fallback` URL printed by `start.sh` or `doctor.sh`, for example `http://172.x.x.x:5050`.
+
+If `curl http://localhost:5050` works inside WSL but the Windows browser cannot open `http://localhost:5050`, the app is running and the issue is Windows-to-WSL forwarding. Use one of these options:
+
+1. Open the WSL IP fallback URL from Windows, for example `http://172.x.x.x:5050`.
+2. If you need Windows `localhost:5050`, create a Windows portproxy from an Administrator PowerShell window:
+
+```powershell
+$wslIp = wsl hostname -I
+$wslIp = $wslIp.Trim().Split()[0]
+netsh interface portproxy delete v4tov4 listenaddress=127.0.0.1 listenport=5050
+netsh interface portproxy add v4tov4 listenaddress=127.0.0.1 listenport=5050 connectaddress=$wslIp connectport=5050
+```
+
+Repeat the portproxy command after WSL restarts if the WSL IP changes.
+
+### Quickstart options
+
+Skip demo traffic when starting services:
+
+```bash
+bash ./scripts/start.sh --skip-demo
+```
+
+Generate a smaller or faster demo run:
+
+```bash
+bash ./scripts/start.sh --requests 250 --delay-ms 1
+```
+
+The dashboard is served from `http://localhost:5050`. The mock API is available on `http://localhost:5060`.
 
 ## Observation API
 
@@ -124,15 +152,26 @@ Environment variables use normal ASP.NET Core configuration, for example `Storag
 
 ## Docker Compose
 
+The scripts wrap these Compose services:
+
+- `visualizer`: the dashboard and collector API on host port `5050`.
+- `mock-api`: the fake external API on host port `5060`.
+- `demo-client`: one-shot traffic generator, enabled by the `demo` profile.
+- `tests`: one-shot `dotnet test src/RateLimitVisualizer.slnx`, enabled by the `test` profile.
+
+Equivalent raw Compose commands:
+
 ```bash
-docker compose up --build
+docker compose up --build -d visualizer mock-api
+docker compose --profile demo run --rm demo-client
+docker compose --profile test run --rm tests
+docker compose down --remove-orphans
 ```
 
 ## Tests
 
 ```bash
-dotnet build src/RateLimitVisualizer.slnx
-dotnet test src/RateLimitVisualizer.slnx
+bash ./scripts/test.sh
 ```
 
 ## Limitations
